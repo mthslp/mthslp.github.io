@@ -1,0 +1,35 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  name: string;
+  icon: string;
+  items: string[];
+  note?: string;
+}
+
+const { name, icon, items, note } = Astro.props;
+---
+
+<section class="card p-6">
+  <div class="flex items-center gap-3">
+    <span
+      class="flex h-10 w-10 items-center justify-center rounded-lg border border-accent/40 bg-accent/10 text-accent"
+    >
+      <Icon name={icon} class="h-5 w-5" />
+    </span>
+    <h3 class="text-lg font-semibold text-slate-100">{name}</h3>
+  </div>
+
+  <ul class="mt-5 flex flex-wrap gap-2">
+    {
+      items.map((item) => (
+        <li class="rounded-md border border-line bg-surface px-3 py-1.5 font-mono text-sm text-slate-300 transition hover:border-accent/50 hover:text-accent">
+          {item}
+        </li>
+      ))
+    }
+  </ul>
+
+  {note && <p class="mt-4 text-sm text-slate-500">{note}</p>}
+</section>

@@ -1,0 +1,65 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-20 border-t border-line bg-surface">
+  <div class="container-page grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-3">
+    <div>
+      <p class="font-semibold text-slate-100">{site.fullName}</p>
+      <p class="mt-2 text-sm text-slate-400">{site.role}</p>
+      <p class="mt-4 max-w-xs text-sm text-slate-500">
+        Personal website — CV, technical skills and documents.
+      </p>
+    </div>
+
+    <div>
+      <p class="font-mono text-xs uppercase tracking-widest text-accent">Navigation</p>
+      <ul class="mt-4 space-y-2 text-sm">
+        <li><a href="/" class="text-slate-400 transition hover:text-accent">Home</a></li>
+        <li><a href="/cv/" class="text-slate-400 transition hover:text-accent">CV</a></li>
+        <li><a href="/skills/" class="text-slate-400 transition hover:text-accent">Skills</a></li>
+        <li><a href="/documents/" class="text-slate-400 transition hover:text-accent">Documents</a></li>
+        <li><a href="/contact/" class="text-slate-400 transition hover:text-accent">Contact</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <p class="font-mono text-xs uppercase tracking-widest text-accent">Get in touch</p>
+      <ul class="mt-4 space-y-3 text-sm">
+        <li>
+          <a
+            href={`mailto:${site.email}`}
+            class="inline-flex items-center gap-2 text-slate-400 transition hover:text-accent"
+          >
+            <Icon name="mail" class="h-4 w-4" /> {site.email}
+          </a>
+        </li>
+        <li>
+          <a
+            href={`tel:${site.phone.replace(/\s/g, '')}`}
+            class="inline-flex items-center gap-2 text-slate-400 transition hover:text-accent"
+          >
+            <Icon name="phone" class="h-4 w-4" /> {site.phoneDisplay}
+          </a>
+        </li>
+        <li>
+          <span class="inline-flex items-center gap-2 text-slate-400">
+            <Icon name="map-pin" class="h-4 w-4" /> {site.location}
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-t border-line">
+    <div
+      class="container-page flex flex-col items-center justify-between gap-2 py-5 text-xs text-slate-500 sm:flex-row"
+    >
+      <p>© {year} {site.fullName}. All rights reserved.</p>
+      <p class="font-mono">Built with Astro &amp; Tailwind CSS</p>
+    </div>
+  </div>
+</footer>

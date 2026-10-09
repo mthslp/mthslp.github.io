@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import SkillGroup from '../components/SkillGroup.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { getEntry, render } from 'astro:content';
+
+const entry = await getEntry('skills', 'skills');
+if (!entry) throw new Error('Missing collection entry: src/content/skills.md');
+
+const { Content } = await render(entry);
+const { categories, projects } = entry.data;
+---
+
+<BaseLayout
+  title="Skills"
+  description="Technical skills: programming, web, DevOps, graphics, machine learning — plus selected academic and personal projects."
+>
+  <section class="border-b border-line bg-surface">
+    <div class="container-page py-14">
+      <p class="font-mono text-sm uppercase tracking-widest text-accent">Technical stack</p>
+      <h1 class="mt-2 text-3xl font-bold text-slate-100 sm:text-4xl">My IT skills</h1>
+      <p class="mt-4 max-w-2xl leading-relaxed text-slate-400">
+        A detailed view of the technologies I work with, my environments, and the projects that
+        showcase them.
+      </p>
+    </div>
+  </section>
+
+  <section class="container-page py-16">
+    <div class="grid gap-6 md:grid-cols-2">
+      {
+        categories.map((category) => (
+          <SkillGroup
+            name={category.name}
+            icon={category.icon}
+            items={category.items}
+            note={category.note}
+          />
+        ))
+      }
+    </div>
+
+    <div class="mt-10 max-w-3xl leading-relaxed text-slate-400">
+      <Content />
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section class="border-t border-line bg-surface py-16">
+    <div class="container-page">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <h2 class="flex items-center gap-3 text-xl font-semibold text-slate-100">
+            <span
+              class="flex h-9 w-9 items-center justify-center rounded-lg border border-accent/40 bg-accent/10 text-accent"
+            >
+              <Icon name="code" class="h-4 w-4" />
+            </span>
+            Selected projects
+          </h2>
+          <p class="mt-2 text-sm text-slate-400">
+            Academic and personal work illustrating my skills.
+          </p>
+        </div>
+        <a href="/cv/" class="btn-ghost">
+          See my CV
+          <Icon name="arrow-right" class="h-4 w-4" />
+        </a>
+      </div>
+
+      <div class="mt-8 grid gap-5 md:grid-cols-2">
+        {
+          projects.map((project) => (
+            <ProjectCard
+              name={project.name}
+              description={project.description}
+              tech={project.tech}
+              year={project.year}
+              link={project.link}
+              github={project.github}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>

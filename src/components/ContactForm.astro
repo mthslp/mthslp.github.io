@@ -1,0 +1,131 @@
+---
+import { site } from '../data/site';
+
+const endpoint = site.formspreeId.startsWith('REPLACE')
+  ? ''
+  : `https://formspree.io/f/${site.formspreeId}`;
+---
+
+<form id="contact-form" data-endpoint={endpoint} class="space-y-5" novalidate>
+  <div class="grid gap-5 sm:grid-cols-2">
+    <div>
+      <label for="name" class="mb-1.5 block text-sm text-slate-300">Full name</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        required
+        autocomplete="name"
+        placeholder="Your name"
+        class="w-full rounded-lg border border-line bg-surface px-4 py-2.5 text-sm text-slate-100 placeholder:text-slate-600 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+      />
+    </div>
+    <div>
+      <label for="email" class="mb-1.5 block text-sm text-slate-300">Email</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        required
+        autocomplete="email"
+        placeholder="you@example.com"
+        class="w-full rounded-lg border border-line bg-surface px-4 py-2.5 text-sm text-slate-100 placeholder:text-slate-600 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+      />
+    </div>
+  </div>
+
+  <div>
+    <label for="subject" class="mb-1.5 block text-sm text-slate-300">Subject</label>
+    <input
+      type="text"
+      id="subject"
+      name="subject"
+      placeholder="What is this about?"
+      class="w-full rounded-lg border border-line bg-surface px-4 py-2.5 text-sm text-slate-100 placeholder:text-slate-600 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+    />
+  </div>
+
+  <div>
+    <label for="message" class="mb-1.5 block text-sm text-slate-300">Message</label>
+    <textarea
+      id="message"
+      name="message"
+      required
+      rows="6"
+      placeholder="Tell me about your project or opportunity…"
+      class="w-full resize-y rounded-lg border border-line bg-surface px-4 py-2.5 text-sm text-slate-100 placeholder:text-slate-600 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+    ></textarea>
+  </div>
+
+  <div class="flex items-center gap-4">
+    <button type="submit" class="btn-primary" id="submit-btn">
+      Send message
+      <svg
+        viewBox="0 0 24 24"
+        class="h-4 w-4"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"></path></svg
+      >
+    </button>
+    <p id="form-status" class="text-sm" role="status" aria-live="polite"></p>
+  </div>
+</form>
+
+<script define:vars={{ email: site.email }}>
+  const form = document.getElementById('contact-form');
+  const status = document.getElementById('form-status');
+  const button = document.getElementById('submit-btn');
+  const endpoint = form?.dataset.endpoint || '';
+
+  const setStatus = (text, type) => {
+    if (!status) return;
+    status.textContent = text;
+    status.className = 'text-sm ' + (type === 'error' ? 'text-red-400' : 'text-accent');
+  };
+
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const data = new FormData(form);
+    const name = String(data.get('name') || '').trim();
+    const from = String(data.get('email') || '').trim();
+    const subject = String(data.get('subject') || '').trim() || `Message from ${name}`;
+    const message = String(data.get('message') || '').trim();
+
+    if (!name || !from || !message) {
+      setStatus('Please fill in the required fields.', 'error');
+      return;
+    }
+
+    if (!endpoint) {
+      const body = `Name: ${name}\nEmail: ${from}\n\n${message}`;
+      window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      setStatus('Opening your email client…', 'success');
+      return;
+    }
+
+    if (button) button.disabled = true;
+    setStatus('Sending…', 'success');
+
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email: from, subject, message }),
+      });
+
+      if (response.ok) {
+        form.reset();
+        setStatus('Message sent, thank you!', 'success');
+      } else {
+        setStatus('Sending failed — please retry or email me directly.', 'error');
+      }
+    } catch {
+      setStatus('Sending failed — please retry or email me directly.', 'error');
+    } finally {
+      if (button) button.disabled = false;
+    }
+  });
+</script>

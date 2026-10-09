@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+@theme {
+  --color-base: #0a0e17;
+  --color-surface: #0f1624;
+  --color-card: #121a2b;
+  --color-line: #1e293b;
+  --color-accent: #22d3ee;
+  --color-blue: #3b82f6;
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-base font-sans text-slate-300 antialiased;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-accent) 35%, transparent);
+    color: #fff;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-base);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-line);
+    border-radius: 8px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in oklab, var(--color-accent) 50%, var(--color-line));
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .card {
+    @apply rounded-xl border border-line bg-card/70 transition duration-300;
+  }
+
+  .card-hover {
+    @apply hover:border-accent/40 hover:shadow-[0_0_35px_-15px_var(--color-accent)];
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-medium transition duration-200 bg-accent text-base hover:bg-accent/85 hover:shadow-[0_0_25px_-6px_var(--color-accent)];
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-medium transition duration-200 border border-line text-slate-200 hover:border-accent/50 hover:text-accent;
+  }
+
+  .nav-link {
+    @apply text-sm text-slate-400 transition hover:text-accent;
+  }
+
+  .nav-link-active {
+    @apply text-accent;
+  }
+}
+
+@utility text-gradient {
+  background: linear-gradient(120deg, var(--color-accent), var(--color-blue));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility glow-dot {
+  box-shadow: 0 0 12px 2px color-mix(in oklab, var(--color-accent) 70%, transparent);
+}

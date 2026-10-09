@@ -1,0 +1,93 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import ContactForm from '../components/ContactForm.astro';
+import { site } from '../data/site';
+
+const methods = [
+  {
+    icon: 'mail',
+    label: 'Email',
+    value: site.email,
+    href: `mailto:${site.email}`,
+    external: false,
+  },
+  {
+    icon: 'phone',
+    label: 'Phone',
+    value: site.phoneDisplay,
+    href: `tel:${site.phone.replace(/\s/g, '')}`,
+    external: false,
+  },
+];
+---
+
+<BaseLayout
+  title="Contact"
+  description="Contact Mathis Le Port: email, phone and contact form."
+>
+  <section class="border-b border-line bg-surface">
+    <div class="container-page py-14">
+      <p class="font-mono text-sm uppercase tracking-widest text-accent">Let's stay in touch</p>
+      <h1 class="mt-2 text-3xl font-bold text-slate-100 sm:text-4xl">Contact me</h1>
+      <p class="mt-4 max-w-2xl leading-relaxed text-slate-400">
+        An opportunity, a project or just a question? Write to me and I'll get back to you as soon
+        as possible.
+      </p>
+    </div>
+  </section>
+
+  <section class="container-page grid gap-10 py-16 lg:grid-cols-[1fr_1.3fr]">
+    <div class="space-y-5">
+      <h2 class="font-mono text-xs uppercase tracking-widest text-accent">My details</h2>
+
+      {
+        methods.map((method) => (
+          <a
+            href={method.href}
+            target={method.external ? '_blank' : undefined}
+            rel={method.external ? 'noopener noreferrer' : undefined}
+            class="card card-hover flex items-center gap-4 p-5"
+          >
+            <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-accent/40 bg-accent/10 text-accent">
+              <Icon name={method.icon} class="h-5 w-5" />
+            </span>
+            <span class="min-w-0">
+              <span class="block text-xs uppercase tracking-wider text-slate-500">
+                {method.label}
+              </span>
+              <span class="block truncate text-sm font-medium text-slate-200">{method.value}</span>
+            </span>
+            <Icon name="arrow-right" class="ml-auto h-4 w-4 shrink-0 text-slate-600" />
+          </a>
+        ))
+      }
+
+      <div class="card flex items-start gap-3 p-5">
+        <Icon name="map-pin" class="mt-0.5 h-5 w-5 shrink-0 text-accent" />
+        <div>
+          <p class="text-xs uppercase tracking-wider text-slate-500">Location</p>
+          <p class="text-sm font-medium text-slate-200">{site.location}</p>
+        </div>
+      </div>
+
+      <div class="card flex items-start gap-3 p-5">
+        <Icon name="check" class="mt-0.5 h-5 w-5 shrink-0 text-accent" />
+        <div>
+          <p class="text-xs uppercase tracking-wider text-slate-500">Availability</p>
+          <p class="text-sm font-medium text-slate-200">Engineering internship / first position</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card p-6 sm:p-8">
+      <h2 class="text-xl font-semibold text-slate-100">Send a message</h2>
+      <p class="mt-1.5 text-sm text-slate-400">
+        Fill in the form and I'll get back to you shortly.
+      </p>
+      <div class="mt-6">
+        <ContactForm />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

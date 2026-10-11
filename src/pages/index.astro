@@ -10,7 +10,7 @@ const skillsEntry = await getEntry('skills', 'skills');
 const categories = skillsEntry?.data.categories ?? [];
 
 const hasPhoto = fs.existsSync(path.join(process.cwd(), 'public/photo-profil.jpg'));
-const hasCv = fs.existsSync(path.join(process.cwd(), 'public/docs/cv.pdf'));
+const hasCv = fs.existsSync(path.join(process.cwd(), 'public/docs/CV-Mathis-Le-Port.pdf'));
 
 const cards = [
   {
@@ -80,7 +80,7 @@ const cards = [
           </a>
           {
             hasCv ? (
-              <a href="/docs/cv.pdf" download class="btn-ghost">
+              <a href="/docs/CV-Mathis-Le-Port.pdf" download class="btn-ghost">
                 <Icon name="download" class="h-4 w-4" />
                 Download PDF
               </a>

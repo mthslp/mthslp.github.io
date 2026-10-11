@@ -12,7 +12,7 @@ if (!entry) throw new Error('Missing collection entry: src/content/cv.md');
 const { Content } = await render(entry);
 const { summary, experiences, education, languages, interests } = entry.data;
 
-const cvPath = path.join(process.cwd(), 'public/docs/cv.pdf');
+const cvPath = path.join(process.cwd(), 'public/docs/CV-Mathis-Le-Port.pdf');
 const hasCv = fs.existsSync(cvPath);
 ---
 
@@ -30,7 +30,7 @@ const hasCv = fs.existsSync(cvPath);
         <a href="/cv/" class="btn-ghost" aria-current="page">Online version</a>
         {
           hasCv && (
-            <a href="/docs/cv.pdf" download class="btn-primary">
+            <a href="/docs/CV-Mathis-Le-Port.pdf" download class="btn-primary">
               <Icon name="download" class="h-4 w-4" />
               Download PDF
             </a>

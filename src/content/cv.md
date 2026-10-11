@@ -61,9 +61,9 @@ interests:
   - Literature
 ---
 
-**Position applied for:** engineering internship or first engineering position
-in software development — geometric optimisation and nesting (Alma – R&D,
-Grenoble / Saint-Martin-d'Hères). The role combines algorithm design,
-computational geometry and combinatorial optimisation with hands-on software
-engineering, aimed at reducing material waste and improving production
-efficiency.
+**Position applied for:** Assistant Engineer Internship in Visual Computing,
+Optimization. I am eager to apply my technical knowledge to challenging
+engineering problems involving computer vision, numerical methods, and
+algorithm optimization. I am motivated to contribute to innovative projects
+while further developing my skills in computational methods and applied
+research.
